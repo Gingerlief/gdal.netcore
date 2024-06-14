@@ -129,6 +129,7 @@ function Reset-PsSession {
 function Install-PwshModuleRequirements {   
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     
+	
     if (!(Get-Command choco -ErrorAction SilentlyContinue)) {
         exec { Set-ExecutionPolicy Bypass -Scope Process -Force; `
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
@@ -152,7 +153,8 @@ function Install-PwshModuleRequirements {
     if (!(Get-PSRepository -Name "PSGallery" -ErrorAction SilentlyContinue)) {
         Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
     }
-
+	Install-Module -Name PowerShellGet -Force
+	Install-Module PSReadLine -Force
     if (!(Get-Module -Name "VSSetup" -ErrorAction SilentlyContinue)) {
         Install-Module -Name VSSetup -RequiredVersion 2.2.5 -Scope CurrentUser -Force
     } 

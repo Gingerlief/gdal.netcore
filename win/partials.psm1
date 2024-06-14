@@ -203,9 +203,13 @@ function Build-Gdal {
     $env:PROJ_ROOT = "-DPROJ_ROOT=$env:PROJ_INSTALL_DIR"
     $env:MYSQL_LIBRARY = "-DMYSQL_LIBRARY=$env:SDK_LIB\libmysql.lib"
     $env:POPPLER_EXTRA_LIBRARIES = "-DPOPPLER_EXTRA_LIBRARIES=$env:SDK_LIB\freetype.lib;$env:SDK_LIB\harfbuzz.lib"
-    $env:WEBP_INCLUDE = "-DWEBP_INCLUDE_DIR=$env:WEBP_ROOT\include"
-    $env:WEBP_LIB = "-DWEBP_LIBRARY=$env:WEBP_ROOT\lib\libwebp.lib"
 
+    $webpRoot = Get-ForceResolvePath("$env:BUILD_ROOT\sdk\libwebp*")
+    $env:WEBP_ROOT = "-DWEBP_INCLUDE_DIR=$webpRoot\include"
+    $env:WEBP_LIB = "-DWEBP_LIBRARY=$webpRoot\lib\libwebp.lib"
+    $mrsidRoot = Get-ForceResolvePath("$env:BUILD_ROOT\sdk\Raster_DSDK")
+    $env:MRSID_ROOT = "-DMRSID_INCLUDE_DIR=$mrsidRoot\include"
+    $env:MRSID_LIB = "-DMRSID_LIBRARY=$mrsidRoot\lib\lti_dsdk.lib"
     Write-BuildStep "Configuring GDAL"
     Set-Location "$env:BUILD_ROOT"
 
@@ -268,6 +272,7 @@ function Build-Gdal {
         $env:WEBP_INCLUDE  $env:WEBP_LIB `
         $env:PROJ_ROOT $env:MYSQL_LIBRARY `
         $env:POPPLER_EXTRA_LIBRARIES `
+	    $env:MRSID_ROOT $env:MRSID_LIB `
         -DGDAL_USE_KEA=OFF `
         -DGDAL_USE_ZLIB_INTERNAL=ON `
         -DGDAL_CSHARP_APPS=ON `

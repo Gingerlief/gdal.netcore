@@ -7,8 +7,8 @@ param (
     [bool] $fetchGdal = $true, # fetch gdal from git, otherwise use local copy
     [bool] $bootstrapVcpkg = $true, # bootstrap vcpkg, otherwise use local copy
     [bool] $installVcpkgPackages = $true, # install vcpkg packages, otherwise use local copy
-    [bool] $preRelease = $false, # build preRelease version of csharp bindings
-    [int] $buildNumberTail = 10 # build number for csharp bindings
+    [bool] $preRelease = $true, # build preRelease version of csharp bindings
+    [int] $buildNumberTail = 11 # build number for csharp bindings
 )
 
 # using predefined set of helper functions
